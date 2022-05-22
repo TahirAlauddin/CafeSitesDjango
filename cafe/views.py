@@ -151,15 +151,18 @@ def view_update_cafe(request, pk):
                                                     tables_distance_top,
                                                     tables_distance_left,
                                                     tables_label):
-                table, created = cafe.tables.get_or_create(guid=str(table_id))
+                try:
+                    table = cafe.tables.get(guid=str(table_id))
 
-                table.top = table_distance_top
-                table.left = table_distance_left
-                table.label = table_label.strip()
-                table.cafe = cafe
+                    table.top = table_distance_top
+                    table.left = table_distance_left
+                    table.label = table_label.strip()
+                    
+                except:
+                    table = Table(guid=str(table_id), top=table_distance_top, left=table_distance_left,
+                            label=table_label.strip(), cafe=cafe)
 
                 table.save()
-
             #? Delete tables from update page 
             tables_in_database = cafe.tables.all()
             for table in tables_in_database:
