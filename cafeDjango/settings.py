@@ -171,4 +171,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 import django_heroku
 
-django_heroku.settings(locals(), databases=False)
+django_heroku.settings(locals())
