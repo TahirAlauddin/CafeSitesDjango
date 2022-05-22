@@ -23,7 +23,6 @@ def view_create_cafe(request):
             cafe_name = request.POST.get('cafe_name')
 
             #? Creating Cafe object
-            print(Fore.BLUE + str(cafe))
             cafe = Cafe.objects.get(name=cafe_name)
             cafe.image = image
             cafe.save()

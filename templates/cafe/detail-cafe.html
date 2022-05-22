@@ -8,7 +8,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/style-user.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/style-admin.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style-admin.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style-navbar.css' %}" />
     <link rel="stylesheet" href="{% static 'css/colors.css' %}" />
 
@@ -25,7 +25,6 @@
       height: 1000px;
       width: 1000px;
       background: url("{{cafe.image.url}}") no-repeat;
-
     }    
 
     </style>
@@ -49,6 +48,7 @@
           </g>
       </svg>
       <ul class="list nav__list collapsible__content">
+          <li class="nav__item"><div id="printDateTime"></div></li>
           <li class="nav__item"><a style="text-decoration: underline;" href="{% url 'home' %}">Home</a></li>
           <li class="nav__item"><a style="text-decoration: underline;" href="{% url 'update-cafe' cafe.pk %}">Update</a></li>
           <li class="nav__item"><a style="text-decoration: underline;" href="{% url 'delete-cafe' cafe.pk %}">Delete</a></li>
@@ -113,6 +113,19 @@
         form.submit()
       }
       
+
+      function displayTime() {
+        const today = new Date();
+        const date = today.getDate() + "/" + today.getMonth() + "/" + today.getFullYear();
+        const time =
+          today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  
+        document.getElementById("printDateTime").innerHTML = date + " " + time;
+        let t = setTimeout(function () {displayTime() }, 1000);
+      }
+
+      displayTime();
+
     </script>
 
     <script>
