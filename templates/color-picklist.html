@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Color Pick List{% endblock title %}
+
+{% block links  %}
+<link rel="stylesheet" href="{% static 'css/style-color-picklist.css' %}" />
+{% endblock links  %}
+
+{% block content %}
+
+<section class="sec-module my-5">
+
+    <form method="post">
+        {% for color in colors %}
+            <div class="colors {% if color.name %} {{color.name}} {% else %} unselected-color {% endif %} "><input {% if color.selected %}checked{% endif %} name="colors" type="checkbox" value="{{color.name}}"><p class="color-names">{{color.name}}</p></input></div>
+        {% endfor %}
+        {% csrf_token %}
+        <br>
+        <button class="btn signup-btn" type="submit">Submit</button>
+    </form>
+    
+    {% comment %} <div class="colors blue"><input name="colors" type="checkbox" value="blue"><p class="color-names">blue</p></input></div>
+    <div class="colors red"><input checked name="colors" type="checkbox" value="red"><p class="color-names">red</p></input></div>
+    <div class="colors green"><input name="colors" type="checkbox" value="green"><p class="color-names">green</p></input></div>
+    <div class="colors yellow"><input name="colors" type="checkbox" value="yellow"><p class="color-names">yellow</p></input></div>
+    <div class="colors white"><input name="colors" type="checkbox" value="white"><p class="color-names">white</p></input></div>
+    <div class="colors pink"><input name="colors" type="checkbox" value="pink"><p class="color-names">pink</p></input></div>
+    <div class="colors orange"><input name="colors" type="checkbox" value="orange"><p class="color-names">orange</p></input></div>
+    <div class="colors purple"><input name="colors" type="checkbox" value="purple"><p class="color-names">purple</p></input></div>
+    <div class="colors black"><input name="colors" type="checkbox" value="black"><p class="color-names">black</p></input></div>
+    <div class="colors brown"><input name="colors" type="checkbox" value="brown"><p class="color-names">brown</p></input></div>
+    <div class="colors cyan"><input name="colors" type="checkbox" value="cyan"><p class="color-names">cyan</p></input></div>
+    <div class="colors gold"><input name="colors" type="checkbox" value="gold"><p class="color-names">gold</p></input></div>
+    <div class="colors magenta"><input name="colors" type="checkbox" value="magenta"><p class="color-names">magenta</p></input></div>
+    <div class="colors chocolate"><input name="colors" type="checkbox" value="chocolate"><p class="color-names">chocolate</p></input></div>
+    <div class="colors aqua"><input name="colors" type="checkbox" value="aqua"><p class="color-names">aqua</p></input></div> {% endcomment %}
+
+</section>
+
+
+{% include 'codeSnippets/footer.html' %}
+
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+{% endblock scripts %}

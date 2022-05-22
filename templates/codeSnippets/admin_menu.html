@@ -1,0 +1,22 @@
+
+<nav class="navbar nav-bottom navbar-expand-lg">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link mx-4 active" href="{% url 'home' %}">Home</a>
+                {% if user.is_staff %}
+                <a class="nav-link mx-4" href="{% url 'create-cafe' %}">Add Centre</a>
+                <a class="nav-link mx-4" href="{% url 'color-picklist' %}">Pick Color List</a>
+                {% endif %}
+            </div>
+        </div>
+          <div class="accounts me-5">
+              <a href="{% url 'account_logout' %}" class="btn login-btn">
+                Log Out
+            </a>
+          </div>
+    </div>
+</nav>

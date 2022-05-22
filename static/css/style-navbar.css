@@ -1,0 +1,146 @@
+/* Normalize */
+body {
+    margin: 0;
+}
+
+/* Links */
+a {
+    text-decoration: none;
+}
+
+/* List */
+.list {
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+/* Icons */
+.icon {
+    height: 40px;
+    width: 40px;
+}
+
+.icon--white {
+    fill: #fff;
+}
+
+/* Collapsibles */
+.collapisble__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.collapisble__heading {
+    margin-top: 0;
+    font-size: 3rem;
+}
+
+.collapsible__chevron {
+    transform: rotate(-90deg);
+    transition: transform .4s;
+}
+
+.collapsible__content {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s;
+}
+
+
+.collapsible--expanded .collapsible__content {
+    max-height: 100vh;
+    opacity: 1;
+}
+
+/* Navbar */
+
+.nav {
+    background: #FF9F95;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    /* padding: 0.5rem 1rem; */
+    /* height: 47px; */
+    align-items: center;
+    z-index: 5;
+}
+
+.nav#color-selector {
+    display: none;
+    justify-content: center;
+}
+
+.nav__list {
+    width: 100%;
+    margin: 0;
+    z-index: 5;
+    background: #FF9F95;
+
+}
+
+.nav__item {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #fff;
+    z-index: 5;
+    background: #FF9F95;
+
+
+}
+
+.nav__item>a {
+    color: beige;
+    transition: color 0.3s;
+    z-index: 5;
+
+}
+
+.nav__item>a:hover {
+    color: #fff;
+}
+
+.nav__toggler {
+    opacity: 0.5;
+    transition: box-shadow 0.15s;
+    cursor: pointer;
+    z-index: 5;
+
+}
+
+.nav.collapsible--expanded .nav__toggler {
+    opacity: 1;
+    box-shadow: 0 0 0 3px #fff;
+    border-radius: 5px;
+    z-index: 5;
+}
+
+.nav__title {
+    color: beige;
+    font-size: 1.3rem;
+    margin-left: 0.6rem;
+}
+
+@media screen and (min-width: 768px) {
+    .nav__toggler {
+        display: none;
+    }
+
+    .nav__list {
+        width: auto;
+        display: flex;
+        font-size: 1.6rem;
+        max-height: 100%;
+        opacity: 1;
+        z-index: 5;
+
+    }
+
+    .nav__item {
+        border: 0;
+    }
+
+    .nav__title {
+        margin-left: 1rem;
+        font-size: 1.5rem;
+    }
+}

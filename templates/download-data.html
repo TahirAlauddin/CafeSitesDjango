@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard{% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Generate csv</button>
+        </form>
+
+        <a href="data:text/csv;charset=utf-8,'+escape(csv)+'" download="{{csv_file}}">download</a>    </div>
+
+{% endblock content %}
+
+
+{% block scripts %}
+<script src="{% static 'js/download-data.js' %}"></script>
+{% endblock scripts %}

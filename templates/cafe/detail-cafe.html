@@ -1,0 +1,127 @@
+{% load customfilters %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/style-user.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/style-admin.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style-navbar.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/colors.css' %}" />
+
+    <title>{{title}}</title>
+  </head>
+
+  <body>
+    <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #background-img {
+      height: 1000px;
+      width: 1000px;
+      background: url("{{cafe.image.url}}") no-repeat;
+
+    }    
+
+    </style>
+    
+    <nav class="nav collapsible">
+      <a class="nav__title" href="#">{{cafe.name}}</a>
+      <svg class="icon icon--white nav__toggler" id="light" enable-background="new 0 0 24 24" height="512"
+          viewBox="0 0 24 24" width="512" xmlns="http://www.w3.org/2000/svg">
+          <g>
+              <path
+                  d="m21.5 24h-19c-1.379 0-2.5-1.122-2.5-2.5v-19c0-1.378 1.121-2.5 2.5-2.5h19c1.379 0 2.5 1.122 2.5 2.5v19c0 1.378-1.121 2.5-2.5 2.5zm-19-23c-.827 0-1.5.673-1.5 1.5v19c0 .827.673 1.5 1.5 1.5h19c.827 0 1.5-.673 1.5-1.5v-19c0-.827-.673-1.5-1.5-1.5z" />
+          </g>
+          <g>
+              <path d="m16.5 8h-9c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h9c.276 0 .5.224.5.5s-.224.5-.5.5z" />
+          </g>
+          <g>
+              <path d="m16.5 12.5h-9c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h9c.276 0 .5.224.5.5s-.224.5-.5.5z" />
+          </g>
+          <g>
+              <path d="m16.5 17h-9c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h9c.276 0 .5.224.5.5s-.224.5-.5.5z" />
+          </g>
+      </svg>
+      <ul class="list nav__list collapsible__content">
+          <li class="nav__item"><a style="text-decoration: underline;" href="{% url 'home' %}">Home</a></li>
+          <li class="nav__item"><a style="text-decoration: underline;" href="{% url 'update-cafe' cafe.pk %}">Update</a></li>
+          <li class="nav__item"><a style="text-decoration: underline;" href="{% url 'delete-cafe' cafe.pk %}">Delete</a></li>
+      </ul>
+  </nav>
+
+
+    <div class="nav" id="color-selector">
+      <div class="color-panel">
+        {% for color in colors %}
+        <div class="{{color.name}} color"></div>
+        {% endfor %}
+        &nbsp;&nbsp;
+        <button class="btn_change" id="delete">×</button>
+        <form id="form" method="POST" style="display: none;">
+          {% csrf_token %}
+        </form>
+        <button class="btn_save_colors" id="savebtn" onclick="saveColors()">Save</button>
+      </div>
+    </div> 
+    <div id="background-img">
+      <div id="container" class="container">
+        {% for table in tables %}
+          <div style="position: absolute; top: {{table.top}}px; left: {{table.left}}px;" class="element table_title{% if table.color %} {{table.color}}{% else %} unselected-color{% endif %}" id="{{table.guid}}">{{table.label}}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    <script>
+      function saveColors() {
+        let arrayColors = [];
+        let arrayIds = [];
+        let child;
+        let color;
+        let parent = document.getElementById('container');
+        let children = parent.children;
+        for (let i = 0; i < children.length; i++) {
+          child = children[i];
+          color = child.style.backgroundColor;
+          id = child.getAttribute('id');
+          if (color == '') {
+            color = child.classList.value.split(" ")[2];
+          }
+          arrayColors.push(color);
+          arrayIds.push(id);
+        }
+      
+        let form = document.getElementById('form');
+        let inputTag;
+        console.log(arrayColors)
+        console.log(arrayIds)
+        for (let index = 0; index < arrayColors.length; index++) {
+          const element = arrayColors[index];
+          const id = arrayIds[index];
+          inputTag = `<input type="text" name="${id}" value="${element}" style="display: none;"></input>`;
+          form.innerHTML = form.innerHTML + inputTag;
+        }
+
+        form.submit()
+      }
+      
+    </script>
+
+    <script>
+      let colors = [{% for color in colors %}"{{color.name}}",{% endfor %}];
+      const container = document.querySelector(".container");
+      let cafe_name = '{{cafe.name}}';
+      let current_selected;
+    </script>
+    <script src="{% static 'js/script-user.js' %}"></script>
+    <script src="{% static 'js/script-navbar.js' %}"></script>
+  </body>
+</html>
