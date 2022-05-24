@@ -2,19 +2,23 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 
-# load_dotenv()
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# SECRET_KEY = os.getenv("SECRET_KEY")
-SECRET_KEY = "SECRET_KEY"
+SECRET_KEY = os.getenv("SECRET_KEY")
+# SECRET_KEY = "SECRET_KEY"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+   "127.0.0.1",
+   "hidden-cove-22044.herokuapp.com",
+   "managetable.app"
+ ]
 
 # Application definition
 
@@ -131,7 +135,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 INTERNAL_IPS = [
    "127.0.0.1",
    "hidden-cove-22044.herokuapp.com",
-   
+   "managetable.app"
  ]
 
 #? Django-allauth Settings
@@ -169,6 +173,6 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 #? Emails
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-import django_heroku
+# import django_heroku
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
