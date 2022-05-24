@@ -13,7 +13,9 @@ urlpatterns = [
 
     path('delete-table/', view_delete_table, name='delete-table'),
     path('color-picklist/', view_color_picklist, name='color-picklist'),
-    
+
+    path('download-record/', generate_csv_file, name='download-data'),
+
     path('data-for-analysis/', view_admin_board, name='admin-board'),
     path('__debug__/', include('debug_toolbar.urls')),
 

@@ -3,11 +3,17 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db import connection
-from .models import Cafe, Table, Color, Record
-import pandas as pd
-import json
+from django.http import HttpResponse
+
 from colorama import init
 from colorama import Fore, Back, Style
+
+import pandas as pd
+import numpy as np
+import json
+
+from .models import Cafe, Table, Color, Record
+
 init(autoreset=True)
 
 @login_required
@@ -212,31 +218,61 @@ def view_delete_table(request):
 @login_required
 def view_admin_board(request):
     if request.method == "POST":
-        generate_csv_file()
+
         messages.add_message(request, level=messages.INFO, 
                             message="Csv file generated successfully!")
-    csv_file = get_csv_file_path()
-    context = {'csv_file': csv_file}
     return render(request, 'download-data.html')
 
 
 
-def generate_csv_file():
-    queryset = Record.objects.all()
-    records = list(queryset)
+def create_label_column(series):
+    if type(series['table']) in [float, int]:
+        table = Table.objects.get(id=int(series['table']))
+        return str( table.label ) 
+    return series['table'].split()[1].split('=')[1].strip()
+
+
+def create_cafe_column(series):
+    if type(series['table']) in [float, int]:
+        table = Table.objects.get(id=int(series['table']))
+        return str( table.cafe ) 
+    return series['table'].split()[0].split('=')[1].strip()
+
+
+def generate_csv_file(request):
+    NAN_REPLACE = 'Nothing'
 
     dataframe = pd.read_sql("SELECT * FROM cafe_record", connection, index_col='id')
-    print(dataframe)
 
-    dataframe['tables'] = dataframe['table']
-    # for record in records:
-    #     if record.table:
-    #         # Table still exists
-    #         pass
-    #     else:
-    #         # Table doesn't exist, use deleted_table attribute
-    #         pass
+    print(Fore.BLUE + str(dataframe))
 
+    dataframe['table_id'].fillna(NAN_REPLACE, inplace=True)
 
-def get_csv_file_path():
-    pass
+    dataframe['table'] = dataframe[['table_id', 'deleted_table']].apply(lambda x: x['table_id']
+                                                                            if (x['table_id'] != NAN_REPLACE)
+                                                                            else x['deleted_table'], axis=1)
+   
+    dataframe['cafe'] = dataframe.apply(lambda x:   create_cafe_column(x),
+                                                    axis=1)
+    
+
+    dataframe['label'] = dataframe.apply(lambda x:   create_label_column(x),
+                                                    axis=1)
+
+    # dataframe['label'] = dataframe.apply(lambda x:   str( Record.objects.get(id=int(x['table'])).label ) 
+    #                                                 if type(x['table']) in [float, int]
+    #                                                 else x['table'].split()[1].split('=')[1].strip(),
+    #                                                 axis=1)
+        
+    dataframe.drop(columns=['table_id', 'deleted_table', 'table'], inplace=True)
+
+    dataframe.rename(columns={'label': 'table'}, inplace=True)
+
+    print(Fore.BLUE + str(dataframe))
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=filename.csv'
+    dataframe.to_csv(path_or_buf=response, float_format='%.2f', index=False,)
+
+    return response
+
