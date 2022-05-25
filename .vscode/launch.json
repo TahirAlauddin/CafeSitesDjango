@@ -5,10 +5,11 @@
     "version": "0.2.0",
     "configurations": [
 
+
         {
             "name": "Python: Django",
             "type": "python",
-            "python": "C:\\Users\\Alauddin\\Desktop\\Folder\\Projects\\CafeDjango\\venv\\Scripts\\python.exe",
+            "python": "C:\\Users\\LENOVO\\OneDrive\\Desktop\\SitesCafeTablesDjangoApp-master\\venv\\Scripts\\python.exe",
             "request": "launch",
             "program": "${workspaceFolder}\\manage.py",
             "args": [
