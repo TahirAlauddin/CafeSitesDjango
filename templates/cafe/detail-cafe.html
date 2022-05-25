@@ -24,7 +24,6 @@
     #background-img {
       height: 1000px;
       width: 1000px;
-      background: url("{{cafe.image.url}}") no-repeat;
     }    
 
     </style>
@@ -69,7 +68,9 @@
         <button class="btn_save_colors" id="savebtn" onclick="saveColors()">Save</button>
       </div>
     </div> 
-    <div id="background-img">
+
+    
+    <div id="background-img" style="background: url('{{cafe.image.url}}') no-repeat;">
       <div id="container" class="container">
         {% for table in tables %}
           <div style="position: absolute; top: {{table.top}}px; left: {{table.left}}px;" class="element table_title{% if table.color %} {{table.color}}{% else %} unselected-color{% endif %}" id="{{table.guid}}">{{table.label}}</div>
@@ -135,9 +136,10 @@
       let current_selected;
     </script>
 
-    <script>
-
-    </script>
+    {% comment %} <script>
+      bg = document.getElementById('background-img')
+      bg.style.background = `url("{{cafe.image.url}}") no-repeat`;
+    </script> {% endcomment %}
     <script src="{% static 'js/script-user.js' %}"></script>
     <script src="{% static 'js/script-navbar.js' %}"></script>
   </body>
